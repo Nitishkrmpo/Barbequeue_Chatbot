@@ -15,19 +15,19 @@ def create_app():
         error_message = None  # Variable to hold any error messages
 
         if request.method == 'POST':
-            api_key = request.form['api_key']
+            api_key = request.form['api_key'].strip()
             
             try:
                 session['groq_api_key'] = api_key  # Store API key in session
                 
                 chatbot_instance = Chatbot(api_key)  # Initialize chatbot with API key
-                
+                print(chatbot_instance)  # Print the chatbot instance for debugging
                 logger.info("API Key set successfully.")
                 return redirect(url_for('chat'))  # Redirect to chat page
             
             except Exception as e:
                 logger.error(f"Error setting API Key: {e}")
-                error_message = "Error setting API Key. Please try again."
+                error_message = "Error setting API Key. Please try again. Note: use the api key with the double quotes."
         
         return render_template('index.html', error_message=error_message)
 
